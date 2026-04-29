@@ -6,21 +6,22 @@ import com.jcaa.usersmanagement.application.port.out.GetUserByIdPort;
 import com.jcaa.usersmanagement.application.service.dto.command.DeleteUserCommand;
 import com.jcaa.usersmanagement.application.service.mapper.UserApplicationMapper;
 import com.jcaa.usersmanagement.domain.exception.UserNotFoundException;
+import com.jcaa.usersmanagement.domain.model.UserModel;
 import com.jcaa.usersmanagement.domain.valueobject.UserId;
 import jakarta.validation.ConstraintViolation;
 import jakarta.validation.ConstraintViolationException;
 import jakarta.validation.Validator;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.java.Log;
 
 import java.util.Set;
 import java.util.logging.Logger;
 
+@Log
 @RequiredArgsConstructor
 public final class DeleteUserService implements DeleteUserUseCase {
 
-  // VIOLACIÓN Regla 6: se agrega un Logger manual en vez de usar @Log de Lombok,
-  // y se loguea información técnica mezclada con una captura de excepción no recuperable.
-  private static final Logger logger = Logger.getLogger(DeleteUserService.class.getName());
+  // VIOLACIÓN Regla 6: se retira el Logger manual
 
   private final DeleteUserPort deleteUserPort;
   private final GetUserByIdPort getUserByIdPort;
@@ -28,17 +29,12 @@ public final class DeleteUserService implements DeleteUserUseCase {
 
   @Override
   public void execute(final DeleteUserCommand command) {
-    // VIOLACIÓN Regla 6: try-catch sin posibilidad real de recuperar el flujo.
-    // Las excepciones no recuperables deben propagarse al manejador global, no capturarse aquí.
-    try {
+      // VIOLACIÓN Regla 6: se quita el try-catch sin posibilidad real de recuperar el flujo.
+
       validateCommand(command);
       final UserId userId = UserApplicationMapper.fromDeleteCommandToUserId(command);
       ensureUserExists(userId);
       deleteUserPort.delete(userId);
-    } catch (final Exception e) {
-      logger.warning("Error al eliminar usuario: " + e.getMessage());
-      throw e;
-    }
   }
 
   private void validateCommand(final DeleteUserCommand command) {
