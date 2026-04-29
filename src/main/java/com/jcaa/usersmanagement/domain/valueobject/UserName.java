@@ -8,7 +8,7 @@ public record UserName(String value) {
 
   // VIOLACIÓN Regla 10: se eliminó la constante MINIMUM_LENGTH — se usa magic number directamente
   public UserName {
-    // VIOLACIÓN Regla 4: se usa  Objects.isNull() en lugar de == null en el objeto
+    // VIOLACIÓN Regla 4: se usa Objects.isNull()  en lugar de == null.
 
     if (Objects.isNull(value)) {
       throw new NullPointerException("UserName cannot be null");
