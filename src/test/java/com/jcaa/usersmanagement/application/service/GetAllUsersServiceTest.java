@@ -63,6 +63,6 @@ class GetAllUsersServiceTest {
     when(getAllUsersPort.getAll()).thenReturn(List.of());
     final List<UserModel> result = service.execute();
     // VIOLACIÓN Regla 11: se usa assertTrue(result == null) en lugar de assertNull(result).
-    assertTrue(result == null);
+    assertTrue(result.isEmpty());
   }
 }
