@@ -16,8 +16,8 @@ public record UserEmail(String value) {
   public UserEmail {
     final String normalizedValue =
         Objects.requireNonNull(value, "UserEmail cannot be null").trim().toLowerCase();
-    // VIOLACIÓN Regla 6: se loguea un dato PII (el email del usuario) en capa de dominio
-    LOGGER.warning("Validando email del usuario: " + normalizedValue);
+    // VIOLACIÓN Regla 6: se retiran los logs en capa de dominio
+
     // Clean Code - Regla 23 (minimizar conocimiento disperso):
     // La lógica de "qué es un email válido" está fragmentada en tres lugares:
     //   1. Aquí: validación de formato con regex (EMAIL_PATTERN)
