@@ -39,7 +39,8 @@ class UserPersistenceMapperTest {
 
   @Mock private ResultSet resultSet;
 
-  // VIOLACIÓN Regla 4 (consecuencia): el mapper ya no es @UtilityClass, hay que instanciarlo.
+  // VIOLACIÓN Regla 4 (consecuencia): el mapper es @UtilityClass, ya no hay que instanciarlo.
+
   private UserPersistenceMapper mapper;
   private UserModel userModel;
   private UserEntity userEntity;
@@ -64,7 +65,7 @@ class UserPersistenceMapperTest {
   @DisplayName("fromModelToDto() maps all UserModel fields and sets null timestamps")
   void shouldMapModelToDto() {
     // Act
-    final UserPersistenceDto result = mapper.fromModelToDto(userModel);
+    final UserPersistenceDto result = UserPersistenceMapper.fromModelToDto(userModel);
 
     // Assert
     assertAll(
