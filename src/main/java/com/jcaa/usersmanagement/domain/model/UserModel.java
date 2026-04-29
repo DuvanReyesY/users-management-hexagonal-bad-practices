@@ -48,17 +48,6 @@ public class UserModel {
     return new UserModel(id, name, email, password, role, UserStatus.INACTIVE);
   }
 
-  // VIOLACIÓN Regla 9 (Hexagonal): método de conversión a entidad de infraestructura dentro del dominio.
-  // El dominio NO debe saber nada sobre cómo se persisten sus datos.
-  public UserEntity toEntity() {
-    return new UserEntity(
-        id.value(),
-        name.value(),
-        email.value(),
-        password.value(),
-        role.name(),
-        status.name(),
-        null,
-        null);
-  }
+  // Se creo un mapper en la estructura/mapper para encargarse
+  // de la conversion de userModel a ENTITY y viceversa
 }
