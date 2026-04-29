@@ -9,6 +9,7 @@ import com.jcaa.usersmanagement.domain.valueobject.UserName;
 import com.jcaa.usersmanagement.domain.valueobject.UserPassword;
 import com.jcaa.usersmanagement.infrastructure.adapter.persistence.dto.UserPersistenceDto;
 import com.jcaa.usersmanagement.infrastructure.adapter.persistence.entity.UserEntity;
+import lombok.experimental.UtilityClass;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -23,6 +24,7 @@ import java.util.List;
 // única librería de mapeo). Al escribir mappers manualmente se crea una clase "utilitaria"
 // cuya lógica debería estar generada automáticamente, no dispersa en código manual.
 // Una clase UserPersistenceMapper escrita a mano es señal de lógica mal ubicada.
+@UtilityClass
 public class UserPersistenceMapper {
 
   public UserPersistenceDto fromModelToDto(final UserModel user) {
