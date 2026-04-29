@@ -43,6 +43,18 @@ public class UserPersistenceMapper {
         null);
   }
 
+  public UserEntity toEntity(final UserModel userModel) {
+    return new UserEntity(
+            userModel.getId().value(),
+            userModel.getName().value(),
+            userModel.getEmail().value(),
+            userModel.getPassword().value(),
+            userModel.getRole().name(),
+            userModel.getStatus().name(),
+            null,
+            null);
+  }
+
   public UserEntity fromResultSetToEntity(final ResultSet resultSet) throws SQLException {
     return new UserEntity(
         resultSet.getString("id"),
