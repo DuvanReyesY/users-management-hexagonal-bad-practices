@@ -48,6 +48,6 @@ public class UserModel {
     return new UserModel(id, name, email, password, role, UserStatus.INACTIVE);
   }
 
-  // Se creo un mapper en la estructura/mapper para encargarse
+  // el mapper en estructura/mapper se encarga directamente
   // de la conversion de userModel a ENTITY y viceversa
 }
