@@ -11,11 +11,7 @@ public final class ConsoleIO {
   private final PrintStream out;
 
   public String readRequired(final String prompt) {
-<<<<<<< HEAD
     // VIOLACIÓN Regla 4: se quito el nombre abreviado "v" en lugar se puso el nombre descriptivo "value".
-=======
-    // VIOLACIÓN Regla 4: se usa el nombre descriptivo "value".
->>>>>>> 809658b0943448bfb061db978dcbe5473cbc5d98
 
     // Clean Code - Regla 24 (consistencia semántica):
     // El mismo concepto —"entrada del usuario leída de consola"— se llama "v" aquí
@@ -41,11 +37,9 @@ public final class ConsoleIO {
   public int readInt(final String prompt) {
     while (true) {
       out.print(prompt);
-<<<<<<< HEAD
+
       // VIOLACIÓN Regla 4: se quito el nombre abreviado "r" en lugar se uso el nombre descriptivo "rawInput".
-=======
-      // VIOLACIÓN Regla 4: se usa el nombre descriptivo "rawInput".
->>>>>>> 809658b0943448bfb061db978dcbe5473cbc5d98
+
       final String rawInput = scanner.nextLine().trim();
       try {
         return Integer.parseInt(rawInput);
