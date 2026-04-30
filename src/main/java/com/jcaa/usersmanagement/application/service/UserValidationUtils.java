@@ -1,5 +1,6 @@
 package com.jcaa.usersmanagement.application.service;
 
+import com.jcaa.usersmanagement.application.service.dto.UserAccessPolicy;
 import com.jcaa.usersmanagement.domain.model.UserModel;
 import com.jcaa.usersmanagement.domain.enums.UserStatus;
 import com.jcaa.usersmanagement.domain.enums.UserRole;
@@ -63,25 +64,19 @@ public class UserValidationUtils {
   }
 
   // Clean Code - Regla 20 (objeto antes que primitivo cuando el concepto lo merezca):
-  // Este método recibe userId, email y status como String y int desnudos en lugar de
-  // usar los tipos de dominio UserId, UserEmail y UserStatus.
-  // El código pierde toda la protección de invariantes que ofrecen los value objects:
-  // un id vacío, un email malformado o un status inválido pasarían desapercibidos.
-  // La regla dice: encapsula conceptos como UserId, Email, Status con sus propios tipos.
-  // Clean Code - Regla 5 (pocos parámetros): además recibe maxInactivityDays como
-  // primitivo int suelto, que podría encapsularse en un objeto de política de acceso.
-  public static boolean canPerformAction(
-      final String userId,
-      final String email,
-      final String status,
-      final int maxInactivityDays) {
-    // Clean Code - Regla 17: condición larga y difícil de leer que debería extraerse.
-    if (userId == null || userId.isBlank() || email == null || !email.contains("@")) {
+  // ya no son String desnudos sino UserId y UserEmail, que traen sus propias validaciones de dominio encapsuladas.
+
+  // Clean Code - Regla 5 (pocos parámetros): se hace encapsulamiento en el metodo
+  // con un objeto de política de acceso.
+
+  public static boolean canPerformAction(final UserAccessPolicy policy) {
+    // Clean Code - Regla 17: se simplifica la condición larga y difícil del comienzo
+    if (policy.userId() == null || policy.email() == null) {
       return false;
     }
-    // Clean Code - Regla 18: "ACTIVE" y "PENDING" son literales mágicos —
-    // deberían ser UserStatus.ACTIVE.name() o constantes con nombre descriptivo.
-    return ("ACTIVE".equals(status) || "PENDING".equals(status)) && maxInactivityDays >= 0;
+    // Regla 18 — desaparecen los literales "ACTIVE" y "PENDING" porque ahora se compara con UserStatus.ACTIVE y UserStatus.PENDING directamente.
+    return (policy.status() == UserStatus.ACTIVE || policy.status() == UserStatus.PENDING)
+            && policy.maxInactivityDays() >= 0;
   }
 }
 
