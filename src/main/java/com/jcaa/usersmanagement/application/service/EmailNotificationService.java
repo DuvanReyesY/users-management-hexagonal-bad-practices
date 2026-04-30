@@ -115,9 +115,8 @@ public final class EmailNotificationService {
     return getClass().getResourceAsStream(path);
   }
 
-  // VIOLACIÓN Regla 4: método privado que no usa estado de instancia (no usa this ni campos)
-  // pero NO está declarado como static. La regla dice: métodos privados sin estado deben ser static.
-  private String renderTemplate(String template, final Map<String, String> values) {
+  // VIOLACIÓN Regla 4: el método privado ya está declarado como static. La regla dice: métodos privados sin estado deben ser static.
+  private static String renderTemplate(final String template, final Map<String, String> values) {
     String result = template;
     for (final Map.Entry<String, String> tokenEntry : values.entrySet()) {
       final String token = "{{" + tokenEntry.getKey() + "}}";
