@@ -26,7 +26,7 @@ public final class LoginHandler implements OperationHandler {
       console.println("\n  Login successful. Welcome!");
       printer.print(user);
     } catch (final InvalidCredentialsException exception) {
-      // VIOLACIÓN Regla 6: se quito el log de el email del usuario (PII) al registrar el fallo de login.
+      // VIOLACIÓN Regla 6: se quito el log de el email del usuario (PII) al registrar el fallo de login
       console.println("  Error: " + exception.getMessage());
     }
   }
