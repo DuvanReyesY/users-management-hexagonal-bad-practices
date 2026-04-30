@@ -3,9 +3,10 @@ package com.jcaa.usersmanagement;
 import com.jcaa.usersmanagement.infrastructure.config.DependencyContainer;
 import com.jcaa.usersmanagement.infrastructure.entrypoint.desktop.cli.UserManagementCli;
 import com.jcaa.usersmanagement.infrastructure.entrypoint.desktop.cli.io.ConsoleIO;
+import com.jcaa.usersmanagement.infrastructure.entrypoint.desktop.controller.UserController;
+import java.io.PrintStream;
 import java.util.Scanner;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import java.util.logging.Logger;
 
 // Clean Code - Regla 24 (consistencia semántica):
 // Todo el proyecto usa java.util.logging.Logger (vía @Log de Lombok o Logger.getLogger()),
@@ -21,21 +22,31 @@ import org.slf4j.LoggerFactory;
 // de la aplicación. No hay ninguna abstracción que proteja este acoplamiento.
 public final class Main {
 
-  private static final Logger log = LoggerFactory.getLogger(Main.class);
+  private static final Logger log = Logger.getLogger(Main.class.getName());
 
   // Clean Code - Regla 1 (una sola cosa por función):
-  // main() hace demasiadas cosas en un solo método:
-  //   1. Construye el contenedor de dependencias (wiring completo de la app).
-  //   2. Crea la infraestructura de I/O (Scanner + ConsoleIO).
-  //   3. Instancia el CLI.
-  //   4. Arranca el loop de ejecución.
-  // Cada una de estas responsabilidades podría extraerse a un método con nombre claro:
-  //   buildContainer(), buildConsole(), buildCli(), run().
+  // main() ya no hace mas de una sola cosa y se crearon los respectivos metodos:
+  //   buildContainer(), buildConsole(), buildCli().
+
   public static void main(final String[] args) {
     log.info("Starting Users Management System...");
-    final DependencyContainer container = new DependencyContainer();
+    final UserController controller = buildContainer();
     try (final Scanner scanner = new Scanner(System.in)) {
-      new UserManagementCli(container.userController(), new ConsoleIO(scanner, System.out)).start();
+      final UserManagementCli cli = buildCli(controller, scanner);
+      cli.start();
     }
   }
+
+  private static UserController buildContainer() {
+    return new DependencyContainer().userController();
+  }
+
+  private static ConsoleIO buildConsole(final Scanner scanner) {
+    return new ConsoleIO(scanner, System.out);
+  }
+
+  private static UserManagementCli buildCli(final UserController controller, final Scanner scanner) {
+    return new UserManagementCli(controller, buildConsole(scanner));
+  }
+
 }
