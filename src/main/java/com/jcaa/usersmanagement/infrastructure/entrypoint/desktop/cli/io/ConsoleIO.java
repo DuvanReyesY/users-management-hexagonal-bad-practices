@@ -10,6 +10,9 @@ public final class ConsoleIO {
   private final Scanner scanner;
   private final PrintStream out;
 
+  private static final String BLANK_INPUT_MESSAGE   = "Value cannot be blank. Please try again";
+  private static final String INVALID_NUMBER_MESSAGE = "  Invalid input. Please enter a number.";
+
   public String readRequired(final String prompt) {
     // VIOLACIÓN Regla 4: se quito el nombre abreviado "v" en lugar se puso el nombre descriptivo "value".
 
@@ -22,8 +25,8 @@ public final class ConsoleIO {
       out.print(prompt);
       value = scanner.nextLine().trim();
       if (value.isBlank()) {
-        // VIOLACIÓN Regla 10: texto hardcodeado directamente — debe ser una constante.
-        out.println("  Value cannot be blank. Please try again.");
+        // VIOLACIÓN Regla 10: texto hardcodeado directamente AHORA es una constante.
+        out.println(BLANK_INPUT_MESSAGE);
       }
     } while (value.isBlank());
     return value;
@@ -44,8 +47,8 @@ public final class ConsoleIO {
       try {
         return Integer.parseInt(rawInput);
       } catch (final NumberFormatException ignored) {
-        // VIOLACIÓN Regla 10: texto hardcodeado directamente — debe ser una constante.
-        out.println("  Invalid input. Please enter a number.");
+        // VIOLACIÓN Regla 10: texto hardcodeado directamente AHORA es una constante.
+        out.println(INVALID_NUMBER_MESSAGE);
       }
     }
   }
