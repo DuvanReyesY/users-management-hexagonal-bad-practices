@@ -35,9 +35,9 @@ public final class LoginService implements LoginUseCase {
 
   // Clean Code - Regla 8: viola CQS — consulta Y tiene efectos de modificación implícitos.
   // Clean Code - Regla 1: el metodo se separo en varios metodos cada uno ocupandose de una sola funcionalidad.
-  // Clean Code - Regla 2 (funciones cortas): este método creció hasta convertirse en una mini-clase.
-  //   Hace fetch → null-check → password-verify → status-check → return; son 4 responsabilidades.
-  //   Si exige demasiado análisis para entenderse, debe dividirse.
+  // Clean Code - Regla 2 (funciones cortas): se reestruscturo el metododo para delegar a otros metodos las diferentes
+  // responsabilidades que abarcaba al mismo tiempo originalmente
+
   // Clean Code - Regla 14 (Ley de Deméter): se navega a internals del objeto:
   //   user → getPassword() → verifyPlain() en lugar de delegar con user.passwordMatches(plain).
 

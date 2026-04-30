@@ -30,6 +30,9 @@ public final class CreateUserService implements CreateUserUseCase {
   private final EmailNotificationService emailNotificationService;
   private final Validator validator;
 
+  //clean code 2: se reestruscturo el metododo para delegar a otros metodos las diferentes
+  //responsabilidades que abarcaba al mismo tiempo originalmente
+
   @Override
   public UserModel execute(final CreateUserCommand command) {
     validateCommandConstraints(command);
