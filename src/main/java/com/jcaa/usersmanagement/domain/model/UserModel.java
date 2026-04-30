@@ -6,9 +6,9 @@ import com.jcaa.usersmanagement.domain.valueobject.UserEmail;
 import com.jcaa.usersmanagement.domain.valueobject.UserId;
 import com.jcaa.usersmanagement.domain.valueobject.UserName;
 import com.jcaa.usersmanagement.domain.valueobject.UserPassword;
-// VIOLACIÓN Regla 9 (Hexagonal): el dominio importa una clase de infraestructura.
-// Las dependencias siempre deben ir hacia el centro — nunca desde el dominio hacia afuera.
-import com.jcaa.usersmanagement.infrastructure.adapter.persistence.entity.UserEntity;
+
+// VIOLACIÓN Regla 9 (Hexagonal): el dominio importaba una clase de infraestructura pero ya se elimino
+//la referencia
 
 import lombok.AllArgsConstructor;
 import lombok.Value;
@@ -46,6 +46,6 @@ public class UserModel {
     return new UserModel(id, name, email, password, role, UserStatus.INACTIVE);
   }
 
-  // Se creo un mapper en la estructura/mapper para encargarse
+  // el mapper en infrastructure/persistence/mapper debe encargarse
   // de la conversion de userModel a ENTITY y viceversa
 }
