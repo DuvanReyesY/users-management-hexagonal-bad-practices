@@ -47,8 +47,6 @@ public final class EmailNotificationService {
     sendWithWarningOnFailure(destination);
 
   }
-
-
     // Clean Code - Regla 11 (evitar duplicación): se separo la misma estructura que tenia de notifyUserCreated
     // Clean Code - Regla 25 y 26: misma sobrecompactación que arriba
 

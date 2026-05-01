@@ -24,7 +24,13 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-
+/**
+ *
+ * <p>Cubre: envío correcto de notificación de creación, envío correcto de notificación de
+ * actualización, re-lanzamiento de EmailSenderException cuando el puerto falla, template no
+ * encontrado en classpath, IOException al leer el stream, y sustitución correcta de todos
+ * los tokens del template.
+ */
 // VIOLACIÓN Regla 11: se eliminó el javadoc de la clase que documentaba los casos cubiertos.
 @DisplayName("EmailNotificationService")
 @ExtendWith(MockitoExtension.class)
@@ -61,11 +67,13 @@ class EmailNotificationServiceTest {
 
   // ── notifyUserCreated() — flujo feliz
 
-  // VIOLACIÓN Regla 11: falta @DisplayName en el método.
+  // VIOLACIÓN Regla 11: ya se agrego @DisplayName en el método.
   @Test
+  @DisplayName("notifyUserCreated() invoca el puerto con el email y asunto correctos")
   void shouldSendCreatedNotificationToCorrectEmail() {
-    // VIOLACIÓN Regla 11: se eliminaron los comentarios Arrange–Act–Assert.
+    //Act
     service.notifyUserCreated(user, PASSWORD);
+    //Assert
     verify(emailSenderPort)
         .send(
             argThat(
@@ -91,8 +99,6 @@ class EmailNotificationServiceTest {
                         && dest.getSubject().contains("actualizada")));
   }
 
-  // ── re-lanzar EmailSenderException en notifyUserCreated
-
   @Test
   @DisplayName("notifyUserCreated() re-lanza EmailSenderException cuando el puerto falla")
   void shouldRethrowEmailSenderExceptionOnCreate() {
@@ -104,8 +110,6 @@ class EmailNotificationServiceTest {
     // Act & Assert
     assertThrows(EmailSenderException.class, () -> service.notifyUserCreated(user, PASSWORD));
   }
-
-  // ── re-lanzar EmailSenderException en notifyUserUpdated
 
   @Test
   @DisplayName("notifyUserUpdated() re-lanza EmailSenderException cuando el puerto falla")
@@ -119,7 +123,6 @@ class EmailNotificationServiceTest {
     assertThrows(EmailSenderException.class, () -> service.notifyUserUpdated(user));
   }
 
-  // ── loadTemplate() — rama: template no encontrado (is == null)
 
   @Test
   @DisplayName(
@@ -131,8 +134,6 @@ class EmailNotificationServiceTest {
     // Act & Assert
     assertThrows(EmailSenderException.class, () -> serviceSpy.notifyUserCreated(user, PASSWORD));
   }
-
-  // ── loadTemplate() — rama: IOException al leer el stream
 
   @Test
   @DisplayName(
@@ -146,8 +147,6 @@ class EmailNotificationServiceTest {
     // Act & Assert
     assertThrows(EmailSenderException.class, () -> serviceSpy.notifyUserCreated(user, PASSWORD));
   }
-
-  // ── renderTemplate() — todos los tokens se sustituyen
 
   @Test
   @DisplayName("renderTemplate() sustituye todos los tokens del template correctamente")
