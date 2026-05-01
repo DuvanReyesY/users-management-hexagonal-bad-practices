@@ -55,7 +55,7 @@ public final class LoginService implements LoginUseCase {
   }
 
   private void verifyUserIsActive(final UserModel user) {
-    if (user.isActive()) {
+    if (!user.isActive()) {
       throw InvalidCredentialsException.becauseUserIsNotActive();
     }
   }

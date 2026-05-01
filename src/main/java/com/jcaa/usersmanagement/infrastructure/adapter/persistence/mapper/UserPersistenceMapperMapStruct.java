@@ -15,7 +15,7 @@ public interface UserPersistenceMapperMapStruct {
     @Mapping(target = "id",       expression = "java(user.getIdValue())")
     @Mapping(target = "name",     expression = "java(user.getNameValue())")
     @Mapping(target = "email",    expression = "java(user.getEmailValue())")
-    @Mapping(target = "password", expression = "java(user.verifyPassword())")
+    @Mapping(target = "password", expression = "java(user.getPasswordHash())")
     @Mapping(target = "role",     expression = "java(user.getRole().name())")
     @Mapping(target = "status",   expression = "java(user.getStatus().name())")
     @Mapping(target = "createdAt", expression = "java(null)")
