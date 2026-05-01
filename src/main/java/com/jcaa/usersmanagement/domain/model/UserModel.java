@@ -38,6 +38,27 @@ public class UserModel {
     return new UserModel(id, name, email, password, role, UserStatus.PENDING);
   }
 
+  public String getIdValue() {
+    return id.value();
+  }
+
+  public String getNameValue() {
+    return name.value();
+  }
+
+  public String getEmailValue() {
+    return email.value();
+  }
+
+  public String getPasswordHash() {
+    return password.value();
+  }
+
+
+  public boolean verifyPassword(String plainPassword) {
+    return password.verifyPlain(plainPassword);
+  }
+
   public boolean isActive() {
     return this.status == UserStatus.ACTIVE;
   }

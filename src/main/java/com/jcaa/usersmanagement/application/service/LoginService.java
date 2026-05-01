@@ -34,10 +34,6 @@ public final class LoginService implements LoginUseCase {
   // Clean Code - Regla 2 (funciones cortas): se reestruscturo el metododo para delegar a otros metodos las diferentes
   // responsabilidades que abarcaba al mismo tiempo originalmente
 
-  // Clean Code - Regla 14 (Ley de Deméter): se navega a internals del objeto:
-  //   user → getPassword() → verifyPlain() en lugar de delegar con user.passwordMatches(plain).
-
-
     // Clean Code - Regla 12 (alta cohesión): resuelto ya que todos los metodos presentes siguen un mismo hilo
     //login de un usuario
     // Clean Code - Regla 17: condición booleana compleja y difícil de leer.
@@ -51,16 +47,15 @@ public final class LoginService implements LoginUseCase {
     return getUserByEmailPort.getByEmail(new UserEmail(email))
             .orElseThrow(InvalidCredentialsException::becauseCredentialsAreInvalid);
   }
-// Clean Code - Regla 14: acceso profundo a internals del value object.
+// Clean Code - Regla 14: se delega al value object
   private void verifyPassword(final UserModel user, final String plainPassword) {
-    if (!user.getPassword().verifyPlain(plainPassword)) {
+    if (!user.verifyPassword(plainPassword)) {
       throw InvalidCredentialsException.becauseCredentialsAreInvalid();
     }
   }
-//el lector debe analizar cada rama para
-// deducir la intención central. Debería ser: if (!user.isAllowedToLogin()).
+
   private void verifyUserIsActive(final UserModel user) {
-    if (user.getStatus() != UserStatus.ACTIVE) {
+    if (user.isActive()) {
       throw InvalidCredentialsException.becauseUserIsNotActive();
     }
   }
