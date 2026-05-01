@@ -27,13 +27,9 @@ public final class LoginService implements LoginUseCase {
     verifyPassword(user, command.password());
     verifyUserIsActive(user);
     return user;
-
-    // Clean Code - Regla 8: violación CQS — el método se llama "getAndValidateUser"
-    // pero además de consultar, tiene efectos secundarios (logs internos, acumula estado implícito).
-    // Un método que consulta información no debe modificar estado.
   }
 
-  // Clean Code - Regla 8: viola CQS — consulta Y tiene efectos de modificación implícitos.
+  // Clean Code - Regla 8: metodo eliminado y correcciones aplicadas
   // Clean Code - Regla 1: el metodo se separo en varios metodos cada uno ocupandose de una sola funcionalidad.
   // Clean Code - Regla 2 (funciones cortas): se reestruscturo el metododo para delegar a otros metodos las diferentes
   // responsabilidades que abarcaba al mismo tiempo originalmente
