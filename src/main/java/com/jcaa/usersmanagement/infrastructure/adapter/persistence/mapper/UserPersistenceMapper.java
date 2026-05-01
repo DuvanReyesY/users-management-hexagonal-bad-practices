@@ -1,4 +1,4 @@
-package com.jcaa.usersmanagement.infrastructure.adapter.persistence.mapper;
+/*package com.jcaa.usersmanagement.infrastructure.adapter.persistence.mapper;
 
 import com.jcaa.usersmanagement.domain.enums.UserRole;
 import com.jcaa.usersmanagement.domain.enums.UserStatus;
@@ -78,4 +78,4 @@ public class UserPersistenceMapper {
     }
     return users;
   }
-}
+}*/

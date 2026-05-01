@@ -12,7 +12,8 @@ import com.jcaa.usersmanagement.domain.valueobject.UserEmail;
 import com.jcaa.usersmanagement.domain.valueobject.UserId;
 import com.jcaa.usersmanagement.infrastructure.adapter.persistence.dto.UserPersistenceDto;
 import com.jcaa.usersmanagement.infrastructure.adapter.persistence.exception.PersistenceException;
-import com.jcaa.usersmanagement.infrastructure.adapter.persistence.mapper.UserPersistenceMapper;
+import com.jcaa.usersmanagement.infrastructure.adapter.persistence.mapper.ResultSetMapper;
+import com.jcaa.usersmanagement.infrastructure.adapter.persistence.mapper.UserPersistenceMapperMapStruct;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.java.Log;
 
@@ -87,7 +88,7 @@ public final class UserRepositoryMySQL
   public UserModel save(final UserModel user) {
     // Clean Code - Regla 10 se eliminaron comentarios redundantes que repiten lo que ya dice el código.
 
-    final UserPersistenceDto dto = UserPersistenceMapper.fromModelToDto(user);
+    final UserPersistenceDto dto = UserPersistenceMapperMapStruct.INSTANCE.fromModelToDto(user);
 
     executeSave(dto);
 
@@ -100,7 +101,7 @@ public final class UserRepositoryMySQL
 
   @Override
   public UserModel update(final UserModel user) {
-    final UserPersistenceDto dto = UserPersistenceMapper.fromModelToDto(user);
+    final UserPersistenceDto dto = UserPersistenceMapperMapStruct.INSTANCE.fromModelToDto(user);
     executeUpdate(dto);
     return findByIdOrFail(user.getId());
   }
@@ -113,7 +114,7 @@ public final class UserRepositoryMySQL
       if (!resultSet.next()) {
         return Optional.empty();
       }
-      return Optional.of(UserPersistenceMapper.fromResultSetToModel(resultSet));
+      return Optional.of(ResultSetMapper.toModel(resultSet));
     } catch (final SQLException exception) {
       throw PersistenceException.becauseFindByIdFailed(userId.value(), exception);
     }
@@ -127,7 +128,7 @@ public final class UserRepositoryMySQL
       if (!resultSet.next()) {
         return Optional.empty();
       }
-      return Optional.of(UserPersistenceMapper.fromResultSetToModel(resultSet));
+      return Optional.of(ResultSetMapper.toModel(resultSet));
     } catch (final SQLException exception) {
       throw PersistenceException.becauseFindByEmailFailed(email.value(), exception);
     }
@@ -137,7 +138,7 @@ public final class UserRepositoryMySQL
   public List<UserModel> getAll() {
     try (final PreparedStatement statement = connection.prepareStatement(SQL_SELECT_ALL)) {
       final ResultSet resultSet = statement.executeQuery();
-      return UserPersistenceMapper.fromResultSetToModelList(resultSet);
+      return ResultSetMapper.toModelList(resultSet);
     } catch (final SQLException exception) {
       throw PersistenceException.becauseFindAllFailed(exception);
     }
