@@ -32,7 +32,6 @@ public final class EmailNotificationService {
 
   public void notifyUserCreated(final UserModel user, final String plainPassword) {
 
-    // Clean Code - Regla 25 (claridad sobre ingenio) y Regla 26 (evitar sobrecompactación) solucionadas
     // Clean Code - Regla 3 (un solo nivel de abstracción por función):
     // Se separo la logica en un segundo metodo de update que ya separa correctamente cada nivel de abstraccion
     // Clean Code - Regla 11 (evitar duplicación): la construcción de tokens del mapa
