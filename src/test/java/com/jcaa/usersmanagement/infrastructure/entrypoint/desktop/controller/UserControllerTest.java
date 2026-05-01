@@ -247,20 +247,22 @@ class UserControllerTest {
 
   @Test
   @DisplayName(
-      "updateUser() delegates a correctly populated UpdateUserCommand and returns the mapped response")
+          "updateUser() delegates a correctly populated UpdateUserCommand and returns the mapped response")
   void updateUser_delegatesCorrectCommandAndReturnsMappedResponse_whenUpdateSucceeds() {
     // Arrange
     final UpdateUserRequest request =
-        new UpdateUserRequest(
-            "u-005", "Eve Martinez", "eve@example.com", "NewPass9!", "ADMIN", "ACTIVE");
+            new UpdateUserRequest(
+                    "u-005", "Eve Martinez", "eve@example.com", "NewPass9!", "ADMIN", "ACTIVE");
     final UserModel updatedUser =
-        buildUser("u-005", "Eve Martinez", "eve@example.com", UserRole.ADMIN, UserStatus.ACTIVE);
+            buildUser("u-005", "Eve Martinez", "eve@example.com", UserRole.ADMIN, UserStatus.ACTIVE);
     final ArgumentCaptor<UpdateUserCommand> captor =
-        ArgumentCaptor.forClass(UpdateUserCommand.class);
-    when(updateUserUseCase.execute(captor.capture())).thenReturn(updatedUser);
+            ArgumentCaptor.forClass(UpdateUserCommand.class);
+    doNothing().when(updateUserUseCase).execute(captor.capture());
+    when(getUserByIdUseCase.execute(any())).thenReturn(updatedUser);
 
     // Act
-    final UserResponse result = controller.updateUser(request);
+    controller.updateUser(request);
+    final UserResponse result = controller.getUpdatedUser("u-005");
 
     // Assert
     assertAll(
@@ -296,21 +298,23 @@ class UserControllerTest {
 
   @Test
   @DisplayName(
-      "updateUser() propagates UserNotFoundException when the use case cannot find the user")
+          "updateUser() propagates UserNotFoundException when the use case cannot find the user")
   void updateUser_propagatesUserNotFoundException_whenUserDoesNotExist() {
     // Arrange
     final UpdateUserRequest request =
-        new UpdateUserRequest(
-            "u-999", "Ghost User", "ghost@example.com", "Pass9999!", "MEMBER", "INACTIVE");
-    when(updateUserUseCase.execute(any()))
-        .thenThrow(UserNotFoundException.becauseIdWasNotFound("u-999"));
+            new UpdateUserRequest(
+                    "u-999", "Ghost User", "ghost@example.com", "Pass9999!", "MEMBER", "INACTIVE");
+    doThrow(UserNotFoundException.becauseIdWasNotFound("u-999"))
+            .when(updateUserUseCase)
+            .execute(any());
 
     // Act & Assert
     assertThrows(
-        UserNotFoundException.class,
-        () -> controller.updateUser(request),
-        "UserNotFoundException must propagate without being wrapped");
+            UserNotFoundException.class,
+            () -> controller.updateUser(request),
+            "UserNotFoundException must propagate without being wrapped");
   }
+
 
   // ── deleteUser
 

@@ -28,12 +28,6 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-/**
- * Tests para UpdateUserService.
- *
- * <p>Cubre: flujo feliz, usuario no encontrado, email tomado por otro usuario, email del mismo
- * usuario (no debe fallar) y validación del command.
- */
 @DisplayName("UpdateUserService")
 @ExtendWith(MockitoExtension.class)
 class UpdateUserServiceTest {
@@ -45,26 +39,23 @@ class UpdateUserServiceTest {
 
   private UpdateUserService service;
 
-  private static final String ID = "u-001";
+  private static final String ID    = "u-001";
   private static final String EMAIL = "john@example.com";
-  private static final String HASH = "$2a$12$abcdefghijklmnopqrstuO";
+  private static final String HASH  = "$2a$12$abcdefghijklmnopqrstuO";
 
   private UserModel existingUser;
 
   @BeforeEach
   void setUp() {
     try (final ValidatorFactory validatorFactory = Validation.buildDefaultValidatorFactory()) {
-      service =
-          new UpdateUserService(
+      service = new UpdateUserService(
               updateUserPort,
               getUserByIdPort,
               getUserByEmailPort,
               emailNotificationService,
               validatorFactory.getValidator());
     }
-
-    existingUser =
-        new UserModel(
+    existingUser = new UserModel(
             new UserId(ID),
             new UserName("John Arrieta"),
             new UserEmail(EMAIL),
@@ -73,30 +64,29 @@ class UpdateUserServiceTest {
             UserStatus.ACTIVE);
   }
 
-  // ── flujo feliz
-
   @Test
   @DisplayName("execute() actualiza el usuario y envía notificación cuando los datos son válidos")
   void shouldUpdateUserAndNotifyWhenDataIsValid() {
-    // VIOLACIÓN Regla 11: se eliminaron los comentarios de estructura Arrange–Act–Assert.
+    // Arrange
     final UpdateUserCommand command =
-        new UpdateUserCommand(ID, "John Updated", EMAIL, null, "ADMIN", "ACTIVE");
+            new UpdateUserCommand(ID, "John Updated", EMAIL, null, "ADMIN", "ACTIVE");
     when(getUserByIdPort.getById(any())).thenReturn(Optional.of(existingUser));
     when(getUserByEmailPort.getByEmail(any())).thenReturn(Optional.of(existingUser));
-    when(updateUserPort.update(any())).thenReturn(existingUser);
-    final UserModel result = service.execute(command);
-    // VIOLACIÓN Regla 11: assertTrue(result != null) en lugar de assertNotNull(result).
-    assertTrue(result != null);
+
+    // Act
+    assertDoesNotThrow(() -> service.execute(command));
+
+    // Assert
     verify(updateUserPort).update(any(UserModel.class));
-    verify(emailNotificationService).notifyUserUpdated(existingUser);
+    verify(emailNotificationService).notifyUserUpdated(any(UserModel.class));
   }
 
-  // VIOLACIÓN Regla 11: falta @DisplayName en el método.
   @Test
+  @DisplayName("execute() lanza UserNotFoundException cuando el usuario no existe")
   void shouldThrowWhenUserNotFound() {
     // Arrange
     final UpdateUserCommand command =
-        new UpdateUserCommand("no-existe", "Name", "a@b.com", null, "MEMBER", "ACTIVE");
+            new UpdateUserCommand("no-existe", "Name", "a@b.com", null, "MEMBER", "ACTIVE");
     when(getUserByIdPort.getById(any())).thenReturn(Optional.empty());
 
     // Act & Assert
@@ -104,25 +94,19 @@ class UpdateUserServiceTest {
     verify(updateUserPort, never()).update(any());
   }
 
-  // ── email tomado por otro usuario
-
   @Test
-  @DisplayName(
-      "execute() lanza UserAlreadyExistsException cuando el email pertenece a otro usuario")
+  @DisplayName("execute() lanza UserAlreadyExistsException cuando el email pertenece a otro usuario")
   void shouldThrowWhenEmailBelongsToAnotherUser() {
     // Arrange
     final UpdateUserCommand command =
-        new UpdateUserCommand(ID, "John", "other@example.com", null, "MEMBER", "ACTIVE");
-
-    final UserModel otherUser =
-        new UserModel(
+            new UpdateUserCommand(ID, "John", "other@example.com", null, "MEMBER", "ACTIVE");
+    final UserModel otherUser = new UserModel(
             new UserId("u-999"),
             new UserName("Other User"),
             new UserEmail("other@example.com"),
             UserPassword.fromHash(HASH),
             UserRole.MEMBER,
             UserStatus.ACTIVE);
-
     when(getUserByIdPort.getById(any())).thenReturn(Optional.of(existingUser));
     when(getUserByEmailPort.getByEmail(any())).thenReturn(Optional.of(otherUser));
 
@@ -131,33 +115,26 @@ class UpdateUserServiceTest {
     verify(updateUserPort, never()).update(any());
   }
 
-  // ── email del mismo usuario: no debe lanzar excepción
-
   @Test
   @DisplayName("execute() permite mantener el mismo email del propio usuario")
   void shouldAllowKeepingOwnEmail() {
     // Arrange
     final UpdateUserCommand command =
-        new UpdateUserCommand(ID, "John Updated", EMAIL, null, "ADMIN", "ACTIVE");
-
+            new UpdateUserCommand(ID, "John Updated", EMAIL, null, "ADMIN", "ACTIVE");
     when(getUserByIdPort.getById(any())).thenReturn(Optional.of(existingUser));
     when(getUserByEmailPort.getByEmail(any())).thenReturn(Optional.of(existingUser));
-    when(updateUserPort.update(any())).thenReturn(existingUser);
 
     // Act & Assert
     assertDoesNotThrow(() -> service.execute(command));
     verify(updateUserPort).update(any());
   }
 
-  // ── validación del command
-
   @Test
-  @DisplayName(
-      "execute() lanza ConstraintViolationException cuando el command tiene campos inválidos")
+  @DisplayName("execute() lanza ConstraintViolationException cuando el command tiene campos inválidos")
   void shouldThrowWhenCommandIsInvalid() {
-    // Arrange — id en blanco y email inválido
+    // Arrange
     final UpdateUserCommand command =
-        new UpdateUserCommand("", "Jo", "no-es-email", null, "MEMBER", "ACTIVE");
+            new UpdateUserCommand("", "Jo", "no-es-email", null, "MEMBER", "ACTIVE");
 
     // Act & Assert
     assertThrows(ConstraintViolationException.class, () -> service.execute(command));

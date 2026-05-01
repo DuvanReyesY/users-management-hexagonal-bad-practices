@@ -30,39 +30,24 @@ public final class UpdateUserService implements UpdateUserUseCase {
   private final Validator validator;
 
   @Override
-  public UserModel execute(final UpdateUserCommand command) {
+  public void execute(final UpdateUserCommand command) {
     // Clean Code - Regla 8 (separar comandos y consultas — CQS):
-    // Este método MODIFICA estado (actualiza el usuario en base de datos)
-    // Y TAMBIÉN RETORNA el usuario actualizado (consulta).
-    // La regla dice: un método que modifica estado no debe presentarse como consulta.
-    // Solución: void execute(command) para el comando + UserModel getUpdatedUser(id) para la consulta.
+    // se cambia el metodo a void
     validateCommand(command);
-
-    log.info("Actualizando usuario id=" + command.id() + ", email=" + command.email() + ", nombre=" + command.name());
-
     final UserId userId = new UserId(command.id());
     final UserModel current = findExistingUserOrFail(userId);
     final UserEmail newEmail = new UserEmail(command.email());
     ensureEmailIsNotTakenByAnotherUser(newEmail, userId);
     final UserModel userToUpdate = UserApplicationMapper.fromUpdateCommandToModel(command, current.getPassword());
-    final UserModel updatedUser = updateUserPort.update(userToUpdate);
-    notifyUserUpdated(updatedUser);
-    return updatedUser;
-
+    updateUserPort.update(userToUpdate);
+    emailNotificationService.notifyUserUpdated(userToUpdate);
   }
 
-  // Clean Code - Regla 6: se elimino el metodo notifyIfRequired y se crearon 2 metodos aparte sin
+  // Clean Code - Regla 6: se crearon 2 metodos aparte sin
   // que un boolean decida el comportamiento interno.
-
-  // Clean Code - Regla 7: efecto secundario oculto — el nombre "notifyIfRequired" no indica
-  // que también hace logging cuando notify=false. El nombre es engañoso sobre sus efectos.
 
   private void notifyUserUpdated(final UserModel user) {
     emailNotificationService.notifyUserUpdated(user);
-  }
-
-  private void logSilentUpdate(final UserModel user) {
-    log.info("Actualización silenciosa para usuario: " + user.getId().value());
   }
 
   private void validateCommand(final UpdateUserCommand command) {
