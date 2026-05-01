@@ -26,9 +26,7 @@ public final class UserResponsePrinter {
   }
 
   public void printList(final List<UserResponse> users) {
-    // VIOLACIÓN Regla 5: si GetAllUsersService retorna null (lista vacía → null),
-    // esta llamada a users.isEmpty() lanza NullPointerException en tiempo de ejecución.
-    // Ningún método debe retornar null — se deben usar colecciones vacías.
+
     if (users.isEmpty()) {
       console.println("  No users found.");
       return;
@@ -38,24 +36,20 @@ public final class UserResponsePrinter {
   }
 
   // Clean Code - Regla 27 (código listo para leer, no solo para compilar):
-  // Este método usa Optional + streams anidados + reduce para hacer algo que
-  // puede describirse como "mostrar los usuarios o un aviso de vacío".
-  // La implementación castiga al lector sin aportar ningún beneficio real.
-  // Sin explicación oral del autor es imposible deducir su intención en segundos.
+  // método simplificado para mejor comprension del usuario y mantenibilidad
+
   public void printSummary(final List<UserResponse> users) {
-    Optional.ofNullable(users)
-        .filter(list -> !list.isEmpty())
-        .map(list -> list.stream()
-            .reduce(
-                new StringBuilder(),
-                (sb, u) -> sb.append(String.format("  %s (%s)%n", u.name(), getStatusLabel(u.status()))),
-                StringBuilder::append))
-        .map(StringBuilder::toString)
-        .ifPresentOrElse(console::println, () -> console.println("  No users found."));
+    if (users == null || users.isEmpty()) {
+      console.println("  No users found.");
+      return;
+    }
+
+    console.println("  User summary:");
+    for (UserResponse user : users) {
+      console.printf("    - %s (%s)%n", user.name(), getStatusLabel(user.status()));
+    }
   }
 
-  // Clean Code - Regla 16 (evitar condicionales repetitivas cuando el polimorfismo aporta claridad):
-  // se delega al enum con el método getDisplayName() se eliminaría toda la cascada.
   private static String getStatusLabel(final String status) {
     if (status == null) {
       return "Estado desconocido";

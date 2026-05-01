@@ -14,12 +14,9 @@ public final class ConsoleIO {
   private static final String INVALID_NUMBER_MESSAGE = "  Invalid input. Please enter a number.";
 
   public String readRequired(final String prompt) {
-    // VIOLACIÓN Regla 4: se quito el nombre abreviado "v" en lugar se puso el nombre descriptivo "value".
 
-    // Clean Code - Regla 24 (consistencia semántica):
-    // El mismo concepto —"entrada del usuario leída de consola"— se llama "v" aquí
-    // y "r" en readInt(), dentro de la misma clase. Nombres distintos para el mismo
-    // concepto hacen que el lector asuma incorrectamente que son ideas diferentes.
+    // Clean Code - Regla 24 (consistencia semántica): resuelta
+
     String value;
     do {
       out.print(prompt);

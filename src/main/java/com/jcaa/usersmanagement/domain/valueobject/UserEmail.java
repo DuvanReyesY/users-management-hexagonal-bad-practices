@@ -18,9 +18,6 @@ public record UserEmail(String value) {
         Objects.requireNonNull(value, "UserEmail cannot be null").trim().toLowerCase();
     // VIOLACIÓN Regla 6: se retiran los logs en capa de dominio
 
-    // Clean Code - Regla 23 (minimizar conocimiento disperso):
-    // se elimino la clase de utilities con el metodo de validacion de email
-    //ahora esa logica se centra aqui
     validateNotEmpty(normalizedValue);
     validateFormat(normalizedValue);
     value = normalizedValue;

@@ -10,7 +10,7 @@ public final class InvalidUserNameException extends DomainException {
   private static final String MINIMUM_LENGHT = "The user name must have at least %d characters.";
 
   public static InvalidUserNameException becauseValueIsEmpty() {
-    // VIOLACIÓN Regla 10: texto hardcodeado directamente ahora son unas constantes.
+
     return new InvalidUserNameException(USERNAME_EMPTY);
   }
 

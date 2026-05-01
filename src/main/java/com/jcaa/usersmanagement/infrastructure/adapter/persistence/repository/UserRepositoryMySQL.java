@@ -67,8 +67,6 @@ public final class UserRepositoryMySQL
 
   private final Connection connection;
 
-  // Clean Code - Regla 19 (temporal coupling): se elimino el init
-
   @Override
   public UserModel save(final UserModel user) {
 
@@ -78,9 +76,6 @@ public final class UserRepositoryMySQL
 
     return findByIdOrFail(user.getId());
   }
-
-  // Clean Code - Regla 5 (pocos parámetros): se elimino el método alternativo de guardado
-  //  que recibe varios datos relacionados juntos ala vez en lugar de usar encapsulamiento
 
 
   @Override

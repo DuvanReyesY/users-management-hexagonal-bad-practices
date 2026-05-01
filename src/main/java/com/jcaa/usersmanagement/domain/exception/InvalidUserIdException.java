@@ -9,7 +9,7 @@ public final class InvalidUserIdException extends DomainException {
   }
 
   public static InvalidUserIdException becauseValueIsEmpty() {
-    // VIOLACIÓN Regla 10: texto hardcodeado PASO a ser una constante.
+
     return new InvalidUserIdException(USERID_EMPTY);
   }
 }
