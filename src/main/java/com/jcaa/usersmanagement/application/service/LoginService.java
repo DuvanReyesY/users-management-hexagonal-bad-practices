@@ -31,16 +31,9 @@ public final class LoginService implements LoginUseCase {
 
   // Clean Code - Regla 8: metodo eliminado y correcciones aplicadas
   // Clean Code - Regla 1: el metodo se separo en varios metodos cada uno ocupandose de una sola funcionalidad.
-  // Clean Code - Regla 2 (funciones cortas): se reestruscturo el metododo para delegar a otros metodos las diferentes
-  // responsabilidades que abarcaba al mismo tiempo originalmente
 
     // Clean Code - Regla 12 (alta cohesión): resuelto ya que todos los metodos presentes siguen un mismo hilo
     //login de un usuario
-
-    // La regla dice: extraer condiciones complejas a métodos con nombre significativo.
-    // Esta expresión equivale a "user.getStatus() != ACTIVE" pero está escrita de forma
-    // redundante e innecesariamente larga — el lector debe analizar cada rama para
-    // deducir la intención central. Debería ser: if (!user.isAllowedToLogin()).
 
 
   private UserModel findUserByEmail(final String email) {

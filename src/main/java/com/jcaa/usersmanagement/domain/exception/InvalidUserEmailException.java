@@ -10,7 +10,7 @@ public final class InvalidUserEmailException extends DomainException {
   }
 
   public static InvalidUserEmailException becauseValueIsEmpty() {
-    // VIOLACIÓN Regla 10: textos hardcodeados directamente ahora son constantes.
+
     return new InvalidUserEmailException(EMAIL_EMPTY);
   }
 

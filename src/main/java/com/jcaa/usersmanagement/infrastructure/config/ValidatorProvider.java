@@ -6,8 +6,6 @@ import jakarta.validation.ValidatorFactory;
 import lombok.experimental.UtilityClass;
 import org.hibernate.validator.messageinterpolation.ParameterMessageInterpolator;
 
-// VIOLACIÓN Regla 4: se usa en la clase @UtilityClass para evitar instanciación accidental y generar el constructor privado automáticamente
-
 @UtilityClass
 public final class ValidatorProvider {
 

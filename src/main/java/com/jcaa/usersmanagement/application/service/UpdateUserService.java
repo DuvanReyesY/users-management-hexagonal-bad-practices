@@ -64,11 +64,8 @@ public final class UpdateUserService implements UpdateUserUseCase {
         .orElseThrow(() -> UserNotFoundException.becauseIdWasNotFound(userId.value()));
   }
 
-    // Clean Code - Regla 17: condición booleana excesivamente larga eliminada se separo en
-    //  2 metodos
     // Clean Code - Regla 27 (código listo para leer, no solo para ejecutar):
-    // Sin explicación oral del autor es imposible determinar qué condición exacta
-    // se está evaluando ni por qué hay lógica redundante en la segunda mitad del OR.
+    // metodo simplificado en 2 partes para mejor comprension del usuario y mantenibilidad
 
   private void ensureEmailIsNotTakenByAnotherUser(final UserEmail newEmail, final UserId ownerId) {
     Optional<UserModel> existingUser = getUserByEmailPort.getByEmail(newEmail);

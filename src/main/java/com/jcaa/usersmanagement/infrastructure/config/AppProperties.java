@@ -21,12 +21,11 @@ public final class AppProperties {
   }
 
   private static Properties doLoad(final InputStream stream) {
-    // VIOLACIÓN Regla 4: solved ya se usa Objects.isNull() en lugar de == null
 
     if (Objects.isNull(stream)) {
       throw new NullPointerException("File not found in classpath: " + PROPERTIES_FILE);
     }
-    // VIOLACIÓN Regla 4: ya se usa el nombre descriptivo "properties".
+
     final Properties properties = new Properties();
     try (stream) {
       properties.load(stream);
@@ -37,9 +36,7 @@ public final class AppProperties {
   }
 
   public String get(final String key) {
-    // VIOLACIÓN Regla 4: nombre abreviado "val" en lugar de "value".
     final String value = properties.getProperty(key);
-    // VIOLACIÓN Regla 4: solved ya se usa Objects.isNull() en lugar de == null
     if (Objects.isNull(value)) {
       throw new NullPointerException("Property not found in " + PROPERTIES_FILE + ": " + key);
     }

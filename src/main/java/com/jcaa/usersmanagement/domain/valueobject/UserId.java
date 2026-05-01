@@ -7,7 +7,6 @@ import java.util.Objects;
 public record UserId(String value) {
 
   public UserId {
-    // VIOLACIÓN Regla 4: se usa  Objects.isNull() en lugar de == null en el objeto
 
     if (Objects.isNull(value)) {
       throw new NullPointerException("UserId cannot be null");

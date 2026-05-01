@@ -9,8 +9,7 @@ public final class ConfigurationException extends RuntimeException {
   }
 
   public static ConfigurationException becauseLoadFailed(final Throwable cause) {
-    // VIOLACIÓN Regla 10: Se quito el texto de error hardcodeado directamente.
-    // y se agrego una constante con nombre descriptivo
+
     return new ConfigurationException(FAILED_APP_CONF, cause);
   }
 }

@@ -5,8 +5,6 @@ public final class EmailSenderException extends DomainException {
   private static final String NOTIFY_NOT_SEND = "La notificación por correo no pudo ser enviada.";
   private static final String EMAIL_NOT_SEND = "No se pudo enviar el correo a '%s'. Error SMTP: %s";
 
-
-  // VIOLACIÓN Regla 9 (Clean Code): constructores ya declarados como privados
   private EmailSenderException(final String message) {
     super(message);
   }

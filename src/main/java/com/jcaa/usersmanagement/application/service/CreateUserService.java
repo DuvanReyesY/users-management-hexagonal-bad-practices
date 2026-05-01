@@ -23,8 +23,6 @@ import java.util.Set;
 @RequiredArgsConstructor
 public final class CreateUserService implements CreateUserUseCase {
 
-  //clean code 10: se eliminaron todos los comentarios redundantes
-
   private final SaveUserPort saveUserPort;
   private final GetUserByEmailPort getUserByEmailPort;
   private final EmailNotificationService emailNotificationService;
