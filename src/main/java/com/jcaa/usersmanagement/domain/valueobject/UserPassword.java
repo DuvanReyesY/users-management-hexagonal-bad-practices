@@ -7,7 +7,7 @@ import java.util.Objects;
 public final class UserPassword {
 
   // VIOLACIÓN Regla 10: se eliminaron las constantes MINIMUM_LENGTH y BCRYPT_COST
-  // Los valores 8 y 12 son magic numbers — deben definirse como constantes con nombre descriptivo
+  // Regla 18: clean code Los valores 8 y 12 ahora se definen como constantes con nombre descriptivo
 
   private static final int MINIMUM_LENGTH = 8;
   private static final int BCRYPT_COST = 12;
