@@ -15,13 +15,6 @@ public final class GetAllUsersService implements GetAllUsersUseCase {
 
   @Override
   public List<UserModel> execute() {
-    final List<UserModel> users = getAllUsersPort.getAll();
-    // VIOLACIÓN Regla 5 solve: retorna Collections.emptyList() cuando no hay usuarios.
-    // VIOLACIÓN Regla 21 (Clean Code — no retornar banderas de error):
-    // null se usa aquí como "código especial de resultado vacío".
-    if (users.isEmpty()) {
-      return Collections.emptyList();
-    }
-    return users;
+    return getAllUsersPort.getAll();
   }
 }
