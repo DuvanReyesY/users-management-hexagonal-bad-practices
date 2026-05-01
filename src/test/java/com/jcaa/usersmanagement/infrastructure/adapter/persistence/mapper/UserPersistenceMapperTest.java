@@ -23,7 +23,14 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-// VIOLACIÓN Regla 11: se eliminó el javadoc de la clase que documentaba qué casos cubre.
+// VIOLACIÓN Regla 11: se restauro javadoc de la clase que documentaba qué casos cubre.
+/**
+ * Tests para UserPersistenceMapper.
+ *
+ * <p>Cubre: mapeo de UserModel a UserPersistenceDto, mapeo de UserEntity a UserModel,
+ * lectura de todas las columnas del ResultSet, propagación de SQLException,
+ * lista vacía cuando el ResultSet no tiene filas, y una fila por registro en el ResultSet.
+ */
 @DisplayName("UserPersistenceMapper")
 @ExtendWith(MockitoExtension.class)
 class UserPersistenceMapperTest {
@@ -38,8 +45,6 @@ class UserPersistenceMapperTest {
   private static final String UPDATED_AT = "2024-01-02 00:00:00";
 
   @Mock private ResultSet resultSet;
-
-  // VIOLACIÓN Regla 4 (consecuencia): el mapper es @UtilityClass, ya no hay que instanciarlo.
 
   private UserModel userModel;
   private UserEntity userEntity;

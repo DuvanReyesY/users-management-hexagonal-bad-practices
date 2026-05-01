@@ -9,17 +9,27 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 
-// VIOLACIÓN Regla 11: se eliminó @DisplayName de la clase.
+// VIOLACIÓN Regla 11: se restauros @DisplayName.
+/**
+ * Tests para UserPassword.
+ *
+ * <p>Cubre: normalización y hasheo del password, InvalidUserPasswordException cuando el password
+ * es demasiado corto, vacío o en blanco, NullPointerException cuando es null, verificación del
+ * hash contra el texto plano, creación desde hash existente, y contrato equals/hashCode.
+ */
+@DisplayName("UserPassword")
 class UserPasswordTest {
 
-  // VIOLACIÓN Regla 11: falta @DisplayName en el test parametrizado.
+
   @ParameterizedTest
+  @DisplayName("fromPlainText() normaliza y hashea el password correctamente")
   @ValueSource(strings = {"password123", "   password123   "})
   void shouldNormalizeAndHashPassword(final String input) {
     // VIOLACIÓN Regla 11: se eliminaron los comentarios Arrange–Act–Assert.
+    // Act
     final UserPassword result = UserPassword.fromPlainText(input);
-    // VIOLACIÓN Regla 11: assertTrue(result.value() != null) en lugar de assertNotNull.
-    assertTrue(result.value() != null);
+    // Assert
+    assertNotNull(result.value());
     assertNotEquals(input.trim(), result.value());
   }
 

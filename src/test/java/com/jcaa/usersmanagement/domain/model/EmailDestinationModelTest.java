@@ -38,14 +38,10 @@ class EmailDestinationModelTest {
         () -> assertEquals(BODY, model.getBody(), "body"));
   }
 
-  // ── Validaciones de campo
-  // Cada test llega a un punto de validación distinto en el constructor:
-  // campo 1 (destinationEmail), campo 2 (destinationName), etc.
 
   @Test
   @DisplayName("Constructor debe lanzar NullPointerException cuando destinationEmail es null")
   void shouldThrowNpeWhenDestinationEmailIsNull() {
-    // Arrange — campo 1 inválido: falla en la primera llamada a validateNotBlank
     // Act & Assert
     assertThrows(
         NullPointerException.class, () -> new EmailDestinationModel(null, NAME, SUBJECT, BODY));
@@ -55,7 +51,6 @@ class EmailDestinationModelTest {
   @DisplayName(
       "Constructor debe lanzar IllegalArgumentException cuando destinationName está en blanco")
   void shouldThrowIaeWhenDestinationNameIsBlank() {
-    // Arrange — campo 1 válido, campo 2 en blanco: falla en la segunda llamada
     // Act & Assert
     assertThrows(
         IllegalArgumentException.class,
@@ -65,7 +60,6 @@ class EmailDestinationModelTest {
   @Test
   @DisplayName("Constructor debe lanzar NullPointerException cuando subject es null")
   void shouldThrowNpeWhenSubjectIsNull() {
-    // Arrange — campos 1 y 2 válidos, campo 3 null: falla en la tercera llamada
     // Act & Assert
     assertThrows(
         NullPointerException.class, () -> new EmailDestinationModel(EMAIL, NAME, null, BODY));
@@ -74,7 +68,6 @@ class EmailDestinationModelTest {
   @Test
   @DisplayName("Constructor debe lanzar IllegalArgumentException cuando body está vacío")
   void shouldThrowIaeWhenBodyIsEmpty() {
-    // Arrange — campos 1, 2 y 3 válidos, campo 4 vacío: falla en la cuarta llamada
     // Act & Assert
     assertThrows(
         IllegalArgumentException.class, () -> new EmailDestinationModel(EMAIL, NAME, SUBJECT, ""));

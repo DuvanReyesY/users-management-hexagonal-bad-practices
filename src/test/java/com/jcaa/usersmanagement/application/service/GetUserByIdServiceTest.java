@@ -51,6 +51,7 @@ class GetUserByIdServiceTest {
   @DisplayName("execute() retorna el usuario cuando el id existe")
   void shouldReturnUserWhenFound() {
     // VIOLACIÓN Regla 11: se eliminaron los comentarios de estructura Arrange–Act–Assert.
+    // Arrange
     final GetUserByIdQuery query = new GetUserByIdQuery("u-001");
     final UserModel expected =
         new UserModel(
@@ -61,14 +62,17 @@ class GetUserByIdServiceTest {
             UserRole.ADMIN,
             UserStatus.ACTIVE);
     when(getUserByIdPort.getById(any())).thenReturn(Optional.of(expected));
+    // Act
     final UserModel result = service.execute(query);
+    // Assert
     // VIOLACIÓN Regla 11: assertTrue(result == expected) en lugar de assertSame(expected, result).
-    assertTrue(result != null);
-    assertTrue(result == expected);
+    assertNotNull(result);
+    assertSame(expected, result);
   }
 
-  // VIOLACIÓN Regla 11: falta @DisplayName en el método.
+  // VIOLACIÓN Regla 11:@DisplayName en el método agregado
   @Test
+  @DisplayName("execute() lanza UserNotFoundException cuando el id no existe")
   void shouldThrowWhenUserNotFound() {
     final GetUserByIdQuery query = new GetUserByIdQuery("no-existe");
     when(getUserByIdPort.getById(any())).thenReturn(Optional.empty());
