@@ -1,6 +1,7 @@
 package com.jcaa.usersmanagement.infrastructure.entrypoint.desktop.cli.handler;
 
 import com.jcaa.usersmanagement.domain.exception.UserNotFoundException;
+import com.jcaa.usersmanagement.domain.valueobject.UserId;
 import com.jcaa.usersmanagement.infrastructure.entrypoint.desktop.cli.io.ConsoleIO;
 import com.jcaa.usersmanagement.infrastructure.entrypoint.desktop.cli.io.UserResponsePrinter;
 import com.jcaa.usersmanagement.infrastructure.entrypoint.desktop.controller.UserController;
@@ -25,6 +26,7 @@ public final class UpdateUserHandler implements OperationHandler {
     final String status   = console.readRequired("Status (ACTIVE / INACTIVE / PENDING / BLOCKED): ");
 
     try {
+      final UserId userId = new UserId(id);
       userController.updateUser(
               new UpdateUserRequest(
                       id,
@@ -33,7 +35,7 @@ public final class UpdateUserHandler implements OperationHandler {
                       password.isBlank() ? null : password,
                       role,
                       status));
-      final UserResponse updatedUser = userController.getUpdatedUser(id);
+      final UserResponse updatedUser = userController.getUpdatedUser(userId);
       console.println("\n  User updated successfully.");
       printer.print(updatedUser);
     } catch (final UserNotFoundException exception) {
