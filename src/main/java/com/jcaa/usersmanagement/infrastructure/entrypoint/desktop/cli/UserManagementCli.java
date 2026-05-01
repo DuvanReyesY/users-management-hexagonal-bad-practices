@@ -17,7 +17,7 @@ import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
-public final class UserManagementCli {
+public final class UserManagementCli implements CliApp{
 
   private static final String BANNER =
       """
