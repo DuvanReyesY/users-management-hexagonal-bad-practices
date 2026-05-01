@@ -12,10 +12,10 @@ public interface UserPersistenceMapperMapStruct {
 
     UserPersistenceMapperMapStruct INSTANCE = Mappers.getMapper(UserPersistenceMapperMapStruct.class);
 
-    @Mapping(target = "id",       expression = "java(user.getId().value())")
-    @Mapping(target = "name",     expression = "java(user.getName().value())")
-    @Mapping(target = "email",    expression = "java(user.getEmail().value())")
-    @Mapping(target = "password", expression = "java(user.getPassword().value())")
+    @Mapping(target = "id",       expression = "java(user.getIdValue())")
+    @Mapping(target = "name",     expression = "java(user.getNameValue())")
+    @Mapping(target = "email",    expression = "java(user.getEmailValue())")
+    @Mapping(target = "password", expression = "java(user.verifyPassword())")
     @Mapping(target = "role",     expression = "java(user.getRole().name())")
     @Mapping(target = "status",   expression = "java(user.getStatus().name())")
     @Mapping(target = "createdAt", expression = "java(null)")
