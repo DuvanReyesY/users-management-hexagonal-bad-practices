@@ -36,7 +36,7 @@ public final class LoginService implements LoginUseCase {
 
     // Clean Code - Regla 12 (alta cohesión): resuelto ya que todos los metodos presentes siguen un mismo hilo
     //login de un usuario
-    // Clean Code - Regla 17: condición booleana compleja y difícil de leer.
+
     // La regla dice: extraer condiciones complejas a métodos con nombre significativo.
     // Esta expresión equivale a "user.getStatus() != ACTIVE" pero está escrita de forma
     // redundante e innecesariamente larga — el lector debe analizar cada rama para
