@@ -32,10 +32,7 @@ public final class EmailNotificationService {
 
   public void notifyUserCreated(final UserModel user, final String plainPassword) {
 
-    // Clean Code - Regla 25 (claridad sobre ingenio) y Regla 26 (evitar sobrecompactación):
-    // Se comprime toda la operación en una cadena de llamadas anidadas en una sola expresión.
-    // Aunque "funciona", sacrifica completamente la legibilidad.
-
+    // Clean Code - Regla 25 (claridad sobre ingenio) y Regla 26 (evitar sobrecompactación) solucionadas
     // Clean Code - Regla 3 (un solo nivel de abstracción por función):
     // Se separo la logica en un segundo metodo de update que ya separa correctamente cada nivel de abstraccion
     // Clean Code - Regla 11 (evitar duplicación): la construcción de tokens del mapa
@@ -48,7 +45,6 @@ public final class EmailNotificationService {
 
   }
     // Clean Code - Regla 11 (evitar duplicación): se separo la misma estructura que tenia de notifyUserCreated
-    // Clean Code - Regla 25 y 26: misma sobrecompactación que arriba
 
     public void notifyUserUpdated(final UserModel user) {
       String template = loadTemplate("user-updated.html");
