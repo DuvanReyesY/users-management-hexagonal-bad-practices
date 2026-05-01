@@ -38,8 +38,8 @@ public final class LoginService implements LoginUseCase {
   //   user → getPassword() → verifyPlain() en lugar de delegar con user.passwordMatches(plain).
 
 
-    // Clean Code - Regla 12 (alta cohesión): lógica de dominio sobre estados válidos
-    // dispersa en la capa de aplicación — debería encapsularse en UserModel o un servicio de dominio.
+    // Clean Code - Regla 12 (alta cohesión): resuelto ya que todos los metodos presentes siguen un mismo hilo
+    //login de un usuario
     // Clean Code - Regla 17: condición booleana compleja y difícil de leer.
     // La regla dice: extraer condiciones complejas a métodos con nombre significativo.
     // Esta expresión equivale a "user.getStatus() != ACTIVE" pero está escrita de forma
