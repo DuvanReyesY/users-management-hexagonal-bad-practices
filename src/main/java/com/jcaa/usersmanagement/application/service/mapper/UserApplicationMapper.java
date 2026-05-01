@@ -34,7 +34,7 @@ public class UserApplicationMapper {
       final UpdateUserCommand command, final UserPassword currentPassword) {
 
     final UserPassword passwordToUse = resolvePassword(command.password(), currentPassword);
-    // Clean Code - Regla 24: mismo concepto que "correo" de arriba se llaman igual
+    // Clean Code - Regla 24: mismo concepto que "email" de arriba se llaman igual
     final String email = command.email();
 
     return new UserModel(
