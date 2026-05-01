@@ -148,7 +148,7 @@ class UserControllerTest {
     when(getUserByIdUseCase.execute(new GetUserByIdQuery("u-002"))).thenReturn(user);
 
     // Act
-    final UserResponse result = controller.findUserById("u-002");
+    final UserResponse result = controller.findUserById(new UserId("u-002"));
 
     // Assert
     assertAll(
@@ -171,7 +171,7 @@ class UserControllerTest {
     // Act & Assert
     assertThrows(
         UserNotFoundException.class,
-        () -> controller.findUserById("u-999"),
+            () -> controller.findUserById(new UserId("u-999")),
         "UserNotFoundException must propagate without being wrapped");
   }
 
@@ -262,7 +262,7 @@ class UserControllerTest {
 
     // Act
     controller.updateUser(request);
-    final UserResponse result = controller.getUpdatedUser("u-005");
+    final UserResponse result = controller.getUpdatedUser(new UserId("u-005"));
 
     // Assert
     assertAll(
@@ -327,7 +327,7 @@ class UserControllerTest {
     doNothing().when(deleteUserUseCase).execute(captor.capture());
 
     // Act
-    controller.deleteUser("u-006");
+    controller.deleteUser(new UserId("u-006"));
 
     // Assert
     assertEquals("u-006", captor.getValue().id(), "delete command id must match the provided id");
@@ -345,7 +345,7 @@ class UserControllerTest {
     // Act & Assert
     assertThrows(
         UserNotFoundException.class,
-        () -> controller.deleteUser("u-999"),
+            () -> controller.deleteUser(new UserId("u-999")),
         "UserNotFoundException must propagate without being wrapped");
   }
 
