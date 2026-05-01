@@ -65,7 +65,6 @@ public final class DependencyContainer {
         new JavaMailEmailSenderAdapter(buildSmtpConfig(properties));
     final EmailNotificationService emailNotification = new EmailNotificationService(emailSender);
 
-    // Construir Validator para las validaciones en la capa de aplicación
     final Validator validator = ValidatorProvider.buildValidator();
 
     final CreateUserUseCase createUserUseCase =
@@ -100,9 +99,8 @@ public final class DependencyContainer {
             properties.get(DB_NAME),
             properties.get(DB_USER),
             properties.get(DB_PASSWORD));
-    // VIOLACIÓN Regla 4 (consecuencia): DatabaseConnectionFactory ya no tiene @UtilityClass,
-    // por lo que debe instanciarse para llamar a createConnection.
-    return new DatabaseConnectionFactory().createConnection(config);
+    // VIOLACIÓN Regla 4 DatabaseConnectionFactory ya no debe instanciarse para llamar a createConnection.
+    return DatabaseConnectionFactory.createConnection(config);
   }
 
   private static SmtpConfig buildSmtpConfig(final AppProperties properties) {

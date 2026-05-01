@@ -41,7 +41,6 @@ class UserPersistenceMapperTest {
 
   // VIOLACIÓN Regla 4 (consecuencia): el mapper es @UtilityClass, ya no hay que instanciarlo.
 
-  private UserPersistenceMapper mapper;
   private UserModel userModel;
   private UserEntity userEntity;
 
