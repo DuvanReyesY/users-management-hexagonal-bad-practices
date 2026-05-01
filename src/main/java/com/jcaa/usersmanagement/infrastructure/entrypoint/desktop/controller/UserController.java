@@ -32,9 +32,9 @@ public final class UserController {
   private final LoginUseCase loginUseCase;
 
   public List<UserResponse> listAllUsers() {
-    // VIOLACIÓN Regla 4: uso de abreviatura "usrs" — los nombres deben ser claros y sin abreviaturas.
-    final var usrs = getAllUsersUseCase.execute();
-    return UserDesktopMapper.toResponseList(usrs);
+    // VIOLACIÓN Regla 4: nombres claros y sin abreviaturas.
+    final var users = getAllUsersUseCase.execute();
+    return UserDesktopMapper.toResponseList(users);
   }
 
   public UserResponse findUserById(final String id) {
@@ -49,7 +49,6 @@ public final class UserController {
   }
 
   public UserResponse createUser(final CreateUserRequest request) {
-    // Ahora se usa el mapper para transformar el request en el comando de aplicación
     final var command = UserDesktopMapper.toCreateCommand(request);
     final var user = createUserUseCase.execute(command);
     return UserDesktopMapper.toResponse(user);
