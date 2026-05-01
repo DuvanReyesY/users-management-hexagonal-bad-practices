@@ -17,6 +17,7 @@ import jakarta.validation.Validator;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.java.Log;
 
+import java.util.Optional;
 import java.util.Set;
 
 @Log
@@ -63,25 +64,21 @@ public final class UpdateUserService implements UpdateUserUseCase {
         .orElseThrow(() -> UserNotFoundException.becauseIdWasNotFound(userId.value()));
   }
 
-  private void ensureEmailIsNotTakenByAnotherUser(final UserEmail newEmail, final UserId ownerId) {
-    // Clean Code - Regla 17: condición booleana excesivamente larga y difícil de leer.
-    // La regla dice: extraer condiciones complejas a métodos con nombre significativo.
-    // Esta expresión llama al repositorio TRES VECES en la misma condición — ineficiente e ilegible.
-    // Clean Code - Regla 25 (preferir claridad sobre ingenio):
-    // El autor intentó ser exhaustivo en una sola expresión booleana, pero el resultado
-    // es incomprensible. Un lector no puede deducir la intención en pocos segundos.
-    // Clean Code - Regla 26 (evitar sobrecompactación):
-    // Se comprimen cuatro llamadas al repositorio y cinco comparaciones en un solo if.
-    // La brevedad no justifica sacrificar la intención.
+    // Clean Code - Regla 17: condición booleana excesivamente larga eliminada se separo en
+    //  2 metodos
     // Clean Code - Regla 27 (código listo para leer, no solo para ejecutar):
     // Sin explicación oral del autor es imposible determinar qué condición exacta
     // se está evaluando ni por qué hay lógica redundante en la segunda mitad del OR.
-    if (getUserByEmailPort.getByEmail(newEmail).isPresent()
-        && !getUserByEmailPort.getByEmail(newEmail).get().getId().equals(ownerId)
-        && !getUserByEmailPort.getByEmail(newEmail).get().getEmail().value().equals(newEmail.value())
-            || (getUserByEmailPort.getByEmail(newEmail).isPresent()
-                && !getUserByEmailPort.getByEmail(newEmail).get().getId().value().equals(ownerId.value()))) {
+
+  private void ensureEmailIsNotTakenByAnotherUser(final UserEmail newEmail, final UserId ownerId) {
+    Optional<UserModel> existingUser = getUserByEmailPort.getByEmail(newEmail);
+
+    if (existingUser.isPresent() && isNotSameUser(existingUser.get(), ownerId)) {
       throw UserAlreadyExistsException.becauseEmailAlreadyExists(newEmail.value());
     }
+  }
+
+  private boolean isNotSameUser(UserModel existingUser, UserId ownerId) {
+    return !existingUser.getId().equals(ownerId);
   }
 }
